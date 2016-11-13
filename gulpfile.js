@@ -19,7 +19,7 @@ function bundle() {
 }
 
 function copyContentToBuild() {
-  gulp.src(['src/**/*', '!src/js']).pipe(gulp.dest('build'))
+  gulp.src(['node_modules/semantic-ui-css/semantic.min.css', 'src/**/*', '!src/js', 'semantic/build/semantic.min.css']).pipe(gulp.dest('build'))
 }
 
 gulp.task('bundle', function() {

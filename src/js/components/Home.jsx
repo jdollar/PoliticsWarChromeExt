@@ -1,10 +1,14 @@
 var React = require('react')
+var PageHeader = require('./PageHeader')
 
 class Home extends React.Component {
 
   render() {
     return (
-      <div>Home</div>
+      <div>
+        <PageHeader />
+        <div>Home</div>
+      </div>
     )
   }
 }
