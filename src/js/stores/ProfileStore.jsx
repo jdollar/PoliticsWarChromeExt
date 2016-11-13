@@ -1,9 +1,11 @@
 'use strict'
 
-var alt = require('./../alt')
-var ProfileActions = require('./../actions/ProfileActions')
-var PROFILE_KEY_COUNT = 'profileKeyCount'
-var PROFILE_KEY_PREFIX = 'profile'
+const alt = require('./../alt')
+const ProfileActions = require('./../actions/ProfileActions')
+const StorageUtils = require('./../utils/StorageUtil')
+
+const PROFILE_KEY_COUNT = 'profileKeyCount'
+const PROFILE_KEY_PREFIX = 'profile'
 
 class ProfileStore {
   constructor() {
@@ -21,38 +23,31 @@ class ProfileStore {
   }
 
   handleCreateProfile(profileData) {
-    let keyCount = this._getProfileKeyCount()
-    keyCount = parseInt(keyCount) + 1
-    localStorage.setItem(PROFILE_KEY_COUNT, keyCount)
-    localStorage.setItem(PROFILE_KEY_PREFIX + keyCount, JSON.stringify(profileData))
+    let profileIdentifier = StorageUtils.increment(PROFILE_KEY_COUNT)
+    StorageUtils.setObject(PROFILE_KEY_PREFIX + profileIdentifier, profileData)
     this.profileList.push(profileData)
   }
 
-  //TODO: update state for this guy
   handleUpdateProfile(profileData) {
     let profileId = profileData.profileId
     let profileInfo = profileData.data
-
-    let profile = this._getProfileFromStorage(profileId)
+    let profile = StorageUtils.getObjectValue(profileId)
 
     for (var key in profileInfo) {
       if (profileInfo.hasOwnProperty(key)) {
         profile[key] = profileInfo[key]
       }
     }
-    localStorage.setItem(PROFILE_KEY_PREFIX + profileId, JSON.stringify(profile))
+    StorageUtils.setObject(PROFILE_KEY_PREFIX + profileId, profile)
+    this.profileList[profileId] = profile
   }
 
   handleFetchAllProfiles() {
-    let keyCount = this._getProfileKeyCount()
-    console.log(keyCount)
-    for (var i = 1; i <= keyCount; i++) {
-      this.profileList.push(this._getProfileFromStorage(i))
-    }
+    this.profileList = StorageUtils.getAllObjectItems(PROFILE_KEY_PREFIX)
   }
 
   handleFetchProfile(profileId) {
-    currentProfile = this._getProfileFromStorage(profileId)
+    currentProfile = StorageUtils.getObjectValue(PROFILE_KEY_PREFIX + profileId)
   }
 
   handleUpdateNationId(nationIdInput) {
@@ -60,28 +55,8 @@ class ProfileStore {
   }
 
   handleDeleteAllProfiles() {
-    for (var i = 1; i <= this._getProfileKeyCount(); i++) {
-      localStorage.removeItem(PROFILE_KEY_PREFIX + i)
-    }
-    localStorage.removeItem(PROFILE_KEY_COUNT)
+    StorageUtils.removeAllItems(PROFILE_KEY_PREFIX, PROFILE_KEY_COUNT)
     this.profileList = []
-  }
-
-  _getProfileKeyCount() {
-    let keyCount = localStorage.getItem(PROFILE_KEY_COUNT)
-    if (typeof(keyCount) === 'undefined') {
-      keyCount = 0
-    }
-
-    return parseInt(keyCount)
-  }
-
-  _getProfileFromStorage(id) {
-    if (id <= this._getProfileKeyCount()) {
-      return JSON.parse(localStorage.getItem(PROFILE_KEY_PREFIX + id))
-    } else {
-      return {}
-    }
   }
 }
 

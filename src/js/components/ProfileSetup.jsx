@@ -25,7 +25,6 @@ var ProfileSetup = React.createClass({
 
   _onChange: function(event) {
     ProfileActions.updateNationId(event.target.value)
-    console.log('change')
   },
 
   _onClick: function() {
