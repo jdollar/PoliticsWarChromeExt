@@ -14,6 +14,7 @@ var bundler = browserify({
 })
 
 function notify(error) {
+  console.log(error.message)
   var fileName = error.message.match(/[^/]+$/)
   notifier.notify({title: fileName, message: error.description})
 }

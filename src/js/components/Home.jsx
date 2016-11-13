@@ -1,5 +1,6 @@
 var React = require('react')
 var PageHeader = require('./PageHeader')
+var ProfileSetup = require('./ProfileSetup')
 
 class Home extends React.Component {
 
@@ -7,7 +8,7 @@ class Home extends React.Component {
     return (
       <div>
         <PageHeader />
-        <div>Home</div>
+        <ProfileSetup />
       </div>
     )
   }
