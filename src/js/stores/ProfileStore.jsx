@@ -23,23 +23,18 @@ class ProfileStore {
   }
 
   handleCreateProfile(profileData) {
-    let profileIdentifier = StorageUtils.increment(PROFILE_KEY_COUNT)
-    StorageUtils.setObject(PROFILE_KEY_PREFIX + profileIdentifier, profileData)
-    this.profileList.push(profileData)
+    if (!StorageUtils.isKeyValueExisting(PROFILE_KEY_PREFIX, 'nationId', profileData.nationId)) {
+      let profileIdentifier = StorageUtils.increment(PROFILE_KEY_COUNT)
+      profileData = StorageUtils.setObject(PROFILE_KEY_PREFIX + profileIdentifier, profileData)
+      this.profileList.push(profileData)
+    }
   }
 
   handleUpdateProfile(profileData) {
     let profileId = profileData.profileId
     let profileInfo = profileData.data
-    let profile = StorageUtils.getObjectValue(profileId)
-
-    for (var key in profileInfo) {
-      if (profileInfo.hasOwnProperty(key)) {
-        profile[key] = profileInfo[key]
-      }
-    }
-    StorageUtils.setObject(PROFILE_KEY_PREFIX + profileId, profile)
-    this.profileList[profileId] = profile
+    let profile = StorageUtils.updateObject(profileId, profileInfo)
+    this.profileList[profileId.replace(PROFILE_KEY_PREFIX, '')] = profile
   }
 
   handleFetchAllProfiles() {

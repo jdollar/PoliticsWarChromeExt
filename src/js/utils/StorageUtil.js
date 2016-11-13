@@ -7,15 +7,17 @@ class StorageUtil {
 
   static set(key, value) {
     localStorage.setItem(key, value)
+    return value
   }
 
   static delete(key) {
     localStorage.removeItem(key)
+    return key
   }
 
   static getIncrementer(incrementerName) {
     let incrementer = StorageUtil.get(incrementerName)
-    if (typeof(incrementer) === 'undefined') {
+    if (incrementer === null) {
       incrementer = 0
     }
 
@@ -29,34 +31,38 @@ class StorageUtil {
     return incrementer
   }
 
-  static getAllItems(keyPrefix) {
+  static getAllItems(idPrefix) {
     var itemList = []
-    var item
-    var count = 1
-    while((item = StorageUtil.get(keyPrefix + count) !== null)) {
+    StorageUtil._loopAllItems(idPrefix, (value) => {
       itemList.push(item)
-      count++
-    }
-
+    })
     return itemList
   }
 
-  static getAllObjectItems(keyPrefix) {
+  static getAllObjectItems(idPrefix) {
     var objectList = []
-    var objectString
-    var count = 1
-    while((objectString = StorageUtil.get(keyPrefix + count) !== null)) {
+    StorageUtil._loopAllItems(idPrefix, (objectString) => {
       objectList.push(JSON.parse(objectString))
-      count++
+    })
+    return objectList
+  }
+
+  static updateObject(idToUpdate, newValues) {
+    var object = StorageUtil.getObjectValue(idToUpdate)
+    for (key in newValues) {
+      if (newValues.hasOwnProperty(key)) {
+        object[key] = newValues[key]
+      }
     }
 
-    return objectList
+    StorageUtil.set(idToUpdate, object)
+    return object
   }
 
   static removeAllItems(keyPrefix, incrementerKey) {
     var object
     var count = 1
-    while((object = StorageUtil.get(keyPrefix + count) !== null)) {
+    while((object = StorageUtil.get(keyPrefix + count)) !== null) {
       StorageUtil.delete(keyPrefix + count)
       count++
     }
@@ -67,12 +73,37 @@ class StorageUtil {
   }
 
   static getObjectValue(key) {
+    return StorageUtil.getObjectValueDefault(key, {})
+  }
+
+  static getObjectValueDefault(key, default) {
     var objectString = StorageUtil.get(key)
-    return objectString !== null ? JSON.parse(objectString) : {}
+    return objectString !== null ? JSON.parse(objectString) : default
   }
 
   static setObject(objectKey, object) {
+    object.id = objectKey
     StorageUtil.set(objectKey, JSON.stringify(object))
+    return object
+  }
+
+  static isKeyValueExisting(idPrefix, keyName, keyValue) {
+    let existing = false
+    StorageUtil._loopAllItems(idPrefix, (item) => {
+      item = JSON.parse(item)
+      if (item[keyName] === keyValue) {
+        existing = true
+        return existing
+      }
+    })
+  }
+
+  static _loopAllItems(idPrefix, callback) {
+    var item
+    var count = 1
+    while((item = StorageUtil.get(idPrefix + count)) !== null) {
+      !callback(item) ? count++ : break
+    }
   }
 }
 
