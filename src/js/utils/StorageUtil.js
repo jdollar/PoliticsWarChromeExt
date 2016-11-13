@@ -76,9 +76,9 @@ class StorageUtil {
     return StorageUtil.getObjectValueDefault(key, {})
   }
 
-  static getObjectValueDefault(key, default) {
+  static getObjectValueDefault(key, defaultValue) {
     var objectString = StorageUtil.get(key)
-    return objectString !== null ? JSON.parse(objectString) : default
+    return objectString !== null ? JSON.parse(objectString) : defaultValue
   }
 
   static setObject(objectKey, object) {
@@ -91,18 +91,23 @@ class StorageUtil {
     let existing = false
     StorageUtil._loopAllItems(idPrefix, (item) => {
       item = JSON.parse(item)
-      if (item[keyName] === keyValue) {
-        existing = true
-        return existing
-      }
+      existing = item[keyName] === keyValue
+      return existing
     })
+
+    return existing
   }
 
+  //if callback explictly has a return type of true we break out.
+  //Otherwise there is a void return or we continue then we just increment
   static _loopAllItems(idPrefix, callback) {
     var item
     var count = 1
     while((item = StorageUtil.get(idPrefix + count)) !== null) {
-      !callback(item) ? count++ : break
+      if (callback(item)) {
+        break
+      }
+      count++
     }
   }
 }
