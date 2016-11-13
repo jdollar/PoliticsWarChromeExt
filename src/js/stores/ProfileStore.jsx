@@ -1,8 +1,9 @@
 'use strict'
 
-const alt = require('./../alt')
-const ProfileActions = require('./../actions/ProfileActions')
-const StorageUtils = require('./../utils/StorageUtil')
+import alt from './../alt'
+
+import ProfileActions from './../actions/ProfileActions'
+import StorageUtils from './../utils/StorageUtil'
 
 const PROFILE_KEY_COUNT = 'profileKeyCount'
 const PROFILE_KEY_PREFIX = 'profile'
@@ -55,4 +56,4 @@ class ProfileStore {
   }
 }
 
-module.exports = alt.createStore(ProfileStore, 'ProfileStore')
+export default alt.createStore(ProfileStore, 'ProfileStore')

@@ -3,7 +3,7 @@ var fs = require('fs')
 var notifier = require('node-notifier')
 var browserify = require('browserify')
 var watchify = require('watchify')
-var reactify = require('reactify')
+var babelify = require('babelify')
 
 var bundler = browserify({
   entries: ['./src/js/App.jsx'],

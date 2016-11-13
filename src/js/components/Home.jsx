@@ -1,17 +1,32 @@
-var React = require('react')
-var PageHeader = require('./PageHeader')
-var ProfileSetup = require('./ProfileSetup')
+'use strict'
+
+import React from 'react'
+import {Grid} from 'semantic-ui-react'
+
+import PageHeader from './PageHeader'
+import ProfileSetup from './ProfileSetup'
 
 class Home extends React.Component {
 
   render() {
     return (
-      <div>
-        <PageHeader />
-        <ProfileSetup />
-      </div>
+      <Grid>
+        <Grid.Row>
+          <Grid.Column width={16}>
+            <PageHeader />
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column width={4}>
+            <ProfileSetup />
+          </Grid.Column>
+          <Grid.Column width={12}>
+
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
     )
   }
 }
 
-module.exports = Home
+export default Home

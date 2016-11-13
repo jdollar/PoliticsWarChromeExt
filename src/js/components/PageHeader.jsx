@@ -1,5 +1,5 @@
-var React = require('react')
-var Header = require('semantic-ui-react').Header
+import React from 'react'
+import {Header} from 'semantic-ui-react'
 
 class PageHeader extends React.Component {
 
@@ -16,4 +16,4 @@ class PageHeader extends React.Component {
   }
 }
 
-module.exports = PageHeader
+export default PageHeader

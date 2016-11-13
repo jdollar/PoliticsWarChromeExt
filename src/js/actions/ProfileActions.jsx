@@ -1,4 +1,5 @@
-var alt = require('./../alt')
+'use strict'
+import alt from './../alt'
 
 class ProfileActions {
   createNewProfile(profileData) {
@@ -26,4 +27,4 @@ class ProfileActions {
   }
 }
 
-module.exports = alt.createActions(ProfileActions)
+export default alt.createActions(ProfileActions)

@@ -1,10 +1,10 @@
-var React = require('react')
-var ReactDom = require('react-dom')
-var Router = require('react-router').Router
-var Route = require('react-router').Route
-var browserHistory = require('react-router').browserHistory
+'use strict'
 
-var Home = require('./components/Home');
+import React from 'react'
+import ReactDom from 'react-dom'
+import {Router, Route, browserHistory} from 'react-router'
+
+import Home from './components/Home'
 
 var baseUrl = '/pwEnhanced.html'
 

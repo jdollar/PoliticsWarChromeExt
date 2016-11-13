@@ -1,9 +1,10 @@
-var React = require('react')
-var Input = require('semantic-ui-react').Input
-var Button = require('semantic-ui-react').Button
+'use strict'
 
-var ProfileStore = require('./../stores/ProfileStore')
-var ProfileActions = require('./../actions/ProfileActions')
+import React from 'react'
+import { Segment, Divider, Button, Input} from 'semantic-ui-react'
+
+import ProfileStore from './../stores/ProfileStore'
+import ProfileActions from './../actions/ProfileActions'
 
 var ProfileSetup = React.createClass({
   getInitialState: function() {
@@ -37,23 +38,23 @@ var ProfileSetup = React.createClass({
 
   _renderProfiles: function() {
     return this.state.profileList.map((profile, index) => {
-      return <div key={index}>
+      return <div className="row" key={index}>
         {JSON.stringify(profile)}
       </div>
     })
   },
 
   render: function() {
-    return <div className="ui grid">
-      <div className="ui container">
+    return <Segment>
+      <div>
         {this._renderProfiles()}
       </div>
-      <div className="ui hidden divider"></div>
-      <Input className="ui container" placeholder="nation ID" onChange={this._onChange}/>
-      <Button className="ui container" onClick={this._onClick} >Save Nation ID</Button>
-      <Button className="ui container" onClick={this._onDeleteClick} >Delete All Profiles</Button>
-    </div>
+      <Divider hidden />
+      <Input fluid={true} placeholder="Nation ID" onChange={this._onChange}/>
+      <Button fluid={true} onClick={this._onClick} >Save Nation ID</Button>
+      <Button fluid={true} onClick={this._onDeleteClick} >Delete All Profiles</Button>
+    </Segment>
   }
 })
 
-module.exports = ProfileSetup
+export default ProfileSetup

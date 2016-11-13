@@ -112,4 +112,4 @@ class StorageUtil {
   }
 }
 
-module.exports = StorageUtil
+export default StorageUtil
