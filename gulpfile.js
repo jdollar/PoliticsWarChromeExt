@@ -1,5 +1,6 @@
 var gulp = require('gulp')
 var fs = require('fs')
+var notifier = require('node-notifier')
 var browserify = require('browserify')
 var watchify = require('watchify')
 var reactify = require('reactify')
@@ -12,9 +13,14 @@ var bundler = browserify({
   plugin: [watchify]
 })
 
+function notify(error) {
+  var fileName = error.message.match(/[^/]+$/)
+  notifier.notify({title: fileName, message: error.description})
+}
+
 function bundle() {
   bundler.bundle()
-    .on('error', function(error) { console.log(error.message); console.log(error.description)})
+    .on('error', notify)
     .pipe(fs.createWriteStream('./build/pwEnhanced.js'))
 }
 
