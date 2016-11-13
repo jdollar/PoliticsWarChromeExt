@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+
+  "name": "Politics and War Chrome Extension",
+  "version": "1.0",
+  "description": "Chrome extension to do some crazy stuff with politics and War (Don't put me on a NSA watchlist please)",
+  "browser_action": {
+    "default_icon": "./images/icon.png",
+    "default_title": "Politics and War Enchanced"
+  },
+  "background": {
+    "scripts": ["iconHandlers.js"]
+  },
+  "permissions": [
+    "webRequest"
+  ]
+}

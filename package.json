@@ -1,0 +1,39 @@
+{
+  "name": "politicsandwarenhanced",
+  "version": "1.0.0",
+  "description": "Chrome extension for politics and war",
+  "main": "home.html",
+  "scripts": {
+    "prestart": "rm -rf build/**/*",
+    "start": "gulp",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "chrome",
+    "extension"
+  ],
+  "author": "ionizedwarhead",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "reactify": "^1.1.1",
+    "watchify": "^3.7.0"
+  },
+  "dependencies": {
+    "alt": "^0.18.6",
+    "fetch": "^1.1.0",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-router": "^3.0.0"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "reactify",
+        {
+          "es6": true
+        }
+      ]
+    ]
+  }
+}
