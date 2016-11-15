@@ -30,14 +30,15 @@ function copyContentToBuild() {
 }
 
 gulp.task('bundle', function() {
-  bundle();
+  bundle()
 })
+
 gulp.task('build', function() {
   copyContentToBuild()
 })
 
 gulp.task('deployBuild', ['build', 'bundle'])
 gulp.task('dev', ['build', 'bundle'], function() {
-  bundler.on('update', bundle);
+  bundler.on('update', bundle)
 })
-gulp.task('default', ['dev']);
+gulp.task('default', ['dev'])
