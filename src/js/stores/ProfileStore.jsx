@@ -12,31 +12,46 @@ const INVALID_NATION_ID = 'Invalid Nation ID'
 
 class ProfileStore {
   constructor() {
-    this.profileList = []
-    this.profileListError = ''
-    this.currentProfile = {}
-    this.nationId = ''
+    this.state = {
+      profileList: [],
+      currentProfile: {},
+      currentProfileSelection: '',
+      nationId: '',
+      nationIdError: ''
+    }
+
     this.bindListeners({
       handleCreateProfile: ProfileActions.CREATE_NEW_PROFILE,
       handleUpdateProfile: ProfileActions.UPDATE_PROFILE,
       handleFetchAllProfiles: ProfileActions.FETCH_ALL_PROFILES,
+      handleSelectProfile: ProfileActions.SELECT_PROFILE,
       handleFetchProfile: ProfileActions.FETCH_PROFILE,
       handleUpdateNationId: ProfileActions.UPDATE_NATION_ID,
-      handleDeleteAllProfiles: ProfileActions.DELETE_ALL_PROFILES
+      handleDeleteAllProfiles: ProfileActions.DELETE_ALL_PROFILES,
+      handleClearNationId: ProfileActions.CLEAR_NATION_ID
     })
   }
 
   handleCreateProfile(profileData) {
     if (typeof(profileData.nationId) === "undefined" || profileData.nationId === '') {
-      this.profileListError = INVALID_NATION_ID
+      this.setState({
+        nationIdError: INVALID_NATION_ID
+      })
       return
     }
 
     if (!StorageUtils.isKeyValueExisting(PROFILE_KEY_PREFIX, 'nationId', profileData.nationId)) {
       let profileIdentifier = StorageUtils.increment(PROFILE_KEY_COUNT)
       profileData = StorageUtils.setObject(PROFILE_KEY_PREFIX + profileIdentifier, profileData)
-      this.profileList.push(profileData)
+
+      let currentProfileList = this.state.profileList
+      currentProfileList.push(profileData)
+      this.setState({
+        profileList: currentProfileList
+      })
     }
+
+    this.handleClearNationId()
   }
 
   handleUpdateProfile(profileData) {
@@ -44,25 +59,53 @@ class ProfileStore {
     let profileInfo = profileData.data
     let profile = StorageUtils.updateObject(profileId, profileInfo)
     let profileListIndex = parseInt(profileId.replace(PROFILE_KEY_PREFIX, '')) - 1
-    this.profileList[profileListIndex] = profile
+    let currentProfileList = this.state.profileList
+
+    currentProfileList[profileListIndex] = profile
+    this.setState({
+      profileList: currentProfileList
+    })
   }
 
   handleFetchAllProfiles() {
-    this.profileList = StorageUtils.getAllObjectItems(PROFILE_KEY_PREFIX)
+    let allProfiles = StorageUtils.getAllObjectItems(PROFILE_KEY_PREFIX)
+    this.setState({
+      profileList: allProfiles
+    })
   }
 
   handleFetchProfile(profileId) {
-    this.currentProfile = StorageUtils.getObjectValue(PROFILE_KEY_PREFIX + profileId)
+    let profileIdPrefixed = PROFILE_KEY_PREFIX + profileId
+    this.setState({
+      currentProfile: StorageUtils.getObjectValue(profileIdPrefixed)
+    })
+  }
+
+  handleSelectProfile(prefixedProfileId) {
+    this.setState({
+      currentProfileSelection: prefixedProfileId
+    })
   }
 
   handleUpdateNationId(nationIdInput) {
-    this.nationId = nationIdInput
+    this.setState({
+      nationId: nationIdInput,
+      nationIdError: ''
+    })
   }
 
   handleDeleteAllProfiles() {
     StorageUtils.removeAllItems(PROFILE_KEY_PREFIX, PROFILE_KEY_COUNT)
-    this.profileList = []
-    this.profileListError = ''
+    this.setState({
+      profileList: []
+    })
+  }
+
+  handleClearNationId() {
+    this.setState({
+      nationId: '',
+      nationIdError: ''
+    })
   }
 }
 

@@ -35,6 +35,13 @@ describe('ProfileActions', () => {
     })
   })
 
+  describe('selectProfile', () => {
+    it('should dispatch a select profile request', () => {
+      let action = ProfileActions.SELECT_PROFILE
+      testDispatcherCall(action, ProfileActions.selectProfile, 'profile1', ['profile1'])
+    })
+  })
+
   describe('fetchProfile', () => {
     it('should return the profile id and dispatch it', () => {
       let action = ProfileActions.FETCH_PROFILE
@@ -49,10 +56,17 @@ describe('ProfileActions', () => {
     })
   })
 
-  describe('updateNationId', () => {
-    it('should return the nation id and dispatch it', () => {
+  describe('deleteAllProfiles', () => {
+    it('should dispatch a delete all profiles', () => {
       let action = ProfileActions.DELETE_ALL_PROFILES
       testDispatcherCall(action, ProfileActions.deleteAllProfiles, true, undefined)
+    })
+  })
+
+  describe('clearNationId', () => {
+    it('should dispatch a clear nation Id', () => {
+      let action = ProfileActions.CLEAR_NATION_ID
+      testDispatcherCall(action, ProfileActions.clearNationId, true, undefined)
     })
   })
 

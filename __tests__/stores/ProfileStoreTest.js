@@ -74,7 +74,7 @@ describe('ProfileStore', () => {
       expect(wrappedProfileStore.getState().profileList).toEqual([data])
     })
 
-    it('should not add to profile list if there is a empty nationId', () => {
+    it('should not add to profile list and throw error if there is a empty nationId', () => {
       let data = {nationId: ''}
 
       StorageUtils.isKeyValueExisting.and.returnValue(false)
@@ -84,10 +84,10 @@ describe('ProfileStore', () => {
       expect(StorageUtils.isKeyValueExisting.calls.count()).toEqual(0)
 
       expect(wrappedProfileStore.getState().profileList).toEqual([])
-      expect(wrappedProfileStore.getState().profileListError).toEqual('Invalid Nation ID')
+      expect(wrappedProfileStore.getState().nationIdError).toEqual('Invalid Nation ID')
     })
 
-    it('should not add to profile list if there is no nationId in object', () => {
+    it('should not add to profile list and throw error if there is no nationId in object', () => {
       let data = {test: ''}
 
       StorageUtils.isKeyValueExisting.and.returnValue(false)
@@ -97,7 +97,7 @@ describe('ProfileStore', () => {
       expect(StorageUtils.isKeyValueExisting.calls.count()).toEqual(0)
 
       expect(wrappedProfileStore.getState().profileList).toEqual([])
-      expect(wrappedProfileStore.getState().profileListError).toEqual('Invalid Nation ID')
+      expect(wrappedProfileStore.getState().nationIdError).toEqual('Invalid Nation ID')
     })
   })
 
@@ -182,6 +182,19 @@ describe('ProfileStore', () => {
     })
   })
 
+  describe('handleSelectProfile', () => {
+    beforeEach(() => {
+      action = ProfileActions.SELECT_PROFILE
+    })
+
+    it('should update selected profile state', () => {
+      let data = 'profile1'
+      alt.dispatcher.dispatch({action, data})
+
+      expect(wrappedProfileStore.getState().currentProfileSelection).toEqual(data)
+    })
+  })
+
   describe('handleFetchProfile', () => {
     beforeEach(() => {
       action = ProfileActions.FETCH_PROFILE
@@ -244,6 +257,21 @@ describe('ProfileStore', () => {
       expect(removeAllItemsCall.args[1]).toEqual('profileKeyCount')
 
       expect(wrappedProfileStore.getState().profileList).toEqual([])
+    })
+  })
+
+  describe('handleClearNationId', () => {
+    beforeEach(() => {
+      action = ProfileActions.CLEAR_NATION_ID
+    })
+
+    it('should clear nation id', () => {
+      let data = undefined
+      wrappedProfileStore.state.nationId = 'test'
+
+      alt.dispatcher.dispatch({action, data})
+
+      expect(wrappedProfileStore.getState().nationId).toEqual('')
     })
   })
 })

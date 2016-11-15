@@ -2,8 +2,8 @@
 import alt from './../alt'
 
 class ProfileActions {
-  createNewProfile(profileData) {
-    return profileData
+  constructor() {
+    this.generateActions('createNewProfile', 'fetchProfile', 'updateNationId', 'selectProfile')
   }
 
   updateProfile(profileIdInput, profileData) {
@@ -14,15 +14,11 @@ class ProfileActions {
     return true
   }
 
-  fetchProfile(profileId) {
-    return profileId
-  }
-
-  updateNationId(nationId) {
-    return nationId
-  }
-
   deleteAllProfiles() {
+    return true
+  }
+
+  clearNationId() {
     return true
   }
 }

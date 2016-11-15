@@ -1,6 +1,7 @@
 'use strict'
 
 import React from 'react'
+import connectToStores from 'alt-utils/lib/connectToStores';
 import { Segment, Divider, Button, Input, Dropdown} from 'semantic-ui-react'
 
 import ProfileStore from './../stores/ProfileStore'
@@ -10,33 +11,34 @@ class ProfileSetup extends React.Component {
   constructor(props, context) {
     super(props, context)
 
-    this.state = ProfileStore.getState()
-
     this._onChange = this._onChange.bind(this)
     this._onClick = this._onClick.bind(this)
-    this.profileStoreListener = this.profileStoreListener.bind(this)
     this._renderProfileOptions = this._renderProfileOptions.bind(this)
+    this.render = this.render.bind(this)
   }
 
-  componentDidMount() {
-    ProfileStore.listen(this.profileStoreListener)
+  static getStores(props) {
+    return [ProfileStore]
+  }
+
+  static getPropsFromStores(props) {
+    return ProfileStore.getState()
+  }
+
+  static componentDidConnect() {
     ProfileActions.fetchAllProfiles()
-  }
-
-  componentWillUnmount() {
-    ProfileStore.unlisten(this.profileStoreListener)
-  }
-
-  profileStoreListener(state) {
-    this.setState(state)
   }
 
   _onChange(event) {
     ProfileActions.updateNationId(event.target.value)
   }
 
+  _onProfileSelect(proxy, object) {
+    ProfileActions.selectProfile(object.value)
+  }
+
   _onClick() {
-    ProfileActions.createNewProfile({nationId: this.state.nationId})
+    ProfileActions.createNewProfile({nationId: this.props.nationId})
   }
 
   _onDeleteClick() {
@@ -44,20 +46,21 @@ class ProfileSetup extends React.Component {
   }
 
   _renderProfileOptions() {
-    return this.state.profileList.map((profile, index) => {
+    return this.props.profileList.map((profile, index) => {
       return {text: profile.nationId, value: profile.id}
     })
   }
 
   render() {
     return <Segment>
-      <Dropdown fluid selection defaultValue={'profile1'} options={this._renderProfileOptions()} />
+      <Dropdown fluid selection value={this.props.currentProfileSelection} onChange={this._onProfileSelect} options={this._renderProfileOptions()} />
       <Divider hidden />
-      <Input fluid placeholder="Nation ID" onChange={this._onChange}/>
+      <Input fluid placeholder="Nation ID" value={this.props.nationId} onChange={this._onChange}/>
       <Button fluid onClick={this._onClick} >Save Nation ID</Button>
       <Button fluid onClick={this._onDeleteClick} >Delete All Profiles</Button>
     </Segment>
   }
 }
+ ProfileSetup = connectToStores(ProfileSetup)
 
 export default ProfileSetup
