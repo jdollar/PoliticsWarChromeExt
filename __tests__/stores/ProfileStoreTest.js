@@ -22,6 +22,8 @@ describe('ProfileStore', () => {
   describe('handleCreateProfile', () => {
     beforeEach(() => {
       action = ProfileActions.CREATE_NEW_PROFILE
+      wrappedProfileStore.state.profileList = []
+      wrappedProfileStore.state.profileListError = []
     })
 
     afterEach(() => {
@@ -70,6 +72,32 @@ describe('ProfileStore', () => {
       expect(setObjectCall.args[1]).toEqual(data)
 
       expect(wrappedProfileStore.getState().profileList).toEqual([data])
+    })
+
+    it('should not add to profile list if there is a empty nationId', () => {
+      let data = {nationId: ''}
+
+      StorageUtils.isKeyValueExisting.and.returnValue(false)
+
+      alt.dispatcher.dispatch({action, data})
+
+      expect(StorageUtils.isKeyValueExisting.calls.count()).toEqual(0)
+
+      expect(wrappedProfileStore.getState().profileList).toEqual([])
+      expect(wrappedProfileStore.getState().profileListError).toEqual('Invalid Nation ID')
+    })
+
+    it('should not add to profile list if there is no nationId in object', () => {
+      let data = {test: ''}
+
+      StorageUtils.isKeyValueExisting.and.returnValue(false)
+
+      alt.dispatcher.dispatch({action, data})
+
+      expect(StorageUtils.isKeyValueExisting.calls.count()).toEqual(0)
+
+      expect(wrappedProfileStore.getState().profileList).toEqual([])
+      expect(wrappedProfileStore.getState().profileListError).toEqual('Invalid Nation ID')
     })
   })
 

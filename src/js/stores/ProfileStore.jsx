@@ -8,9 +8,12 @@ import StorageUtils from './../utils/StorageUtil'
 const PROFILE_KEY_COUNT = 'profileKeyCount'
 const PROFILE_KEY_PREFIX = 'profile'
 
+const INVALID_NATION_ID = 'Invalid Nation ID'
+
 class ProfileStore {
   constructor() {
     this.profileList = []
+    this.profileListError = ''
     this.currentProfile = {}
     this.nationId = ''
     this.bindListeners({
@@ -24,6 +27,11 @@ class ProfileStore {
   }
 
   handleCreateProfile(profileData) {
+    if (typeof(profileData.nationId) === "undefined" || profileData.nationId === '') {
+      this.profileListError = INVALID_NATION_ID
+      return
+    }
+
     if (!StorageUtils.isKeyValueExisting(PROFILE_KEY_PREFIX, 'nationId', profileData.nationId)) {
       let profileIdentifier = StorageUtils.increment(PROFILE_KEY_COUNT)
       profileData = StorageUtils.setObject(PROFILE_KEY_PREFIX + profileIdentifier, profileData)
@@ -54,6 +62,7 @@ class ProfileStore {
   handleDeleteAllProfiles() {
     StorageUtils.removeAllItems(PROFILE_KEY_PREFIX, PROFILE_KEY_COUNT)
     this.profileList = []
+    this.profileListError = ''
   }
 }
 

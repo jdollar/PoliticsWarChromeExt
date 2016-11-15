@@ -1,60 +1,63 @@
 'use strict'
 
 import React from 'react'
-import { Segment, Divider, Button, Input} from 'semantic-ui-react'
+import { Segment, Divider, Button, Input, Dropdown} from 'semantic-ui-react'
 
 import ProfileStore from './../stores/ProfileStore'
 import ProfileActions from './../actions/ProfileActions'
 
-var ProfileSetup = React.createClass({
-  getInitialState: function() {
-    return ProfileStore.getState()
-  },
+class ProfileSetup extends React.Component {
+  constructor(props, context) {
+    super(props, context)
 
-  componentDidMount: function() {
+    this.state = ProfileStore.getState()
+
+    this._onChange = this._onChange.bind(this)
+    this._onClick = this._onClick.bind(this)
+    this.profileStoreListener = this.profileStoreListener.bind(this)
+    this._renderProfileOptions = this._renderProfileOptions.bind(this)
+  }
+
+  componentDidMount() {
     ProfileStore.listen(this.profileStoreListener)
     ProfileActions.fetchAllProfiles()
-  },
+  }
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     ProfileStore.unlisten(this.profileStoreListener)
-  },
+  }
 
-  profileStoreListener: function(state) {
+  profileStoreListener(state) {
     this.setState(state)
-  },
+  }
 
-  _onChange: function(event) {
+  _onChange(event) {
     ProfileActions.updateNationId(event.target.value)
-  },
+  }
 
-  _onClick: function() {
+  _onClick() {
     ProfileActions.createNewProfile({nationId: this.state.nationId})
-  },
+  }
 
-  _onDeleteClick: function() {
+  _onDeleteClick() {
     ProfileActions.deleteAllProfiles()
-  },
+  }
 
-  _renderProfiles: function() {
+  _renderProfileOptions() {
     return this.state.profileList.map((profile, index) => {
-      return <div className="row" key={index}>
-        {JSON.stringify(profile)}
-      </div>
+      return {text: profile.nationId, value: profile.id}
     })
-  },
+  }
 
-  render: function() {
+  render() {
     return <Segment>
-      <div>
-        {this._renderProfiles()}
-      </div>
+      <Dropdown fluid selection defaultValue={'profile1'} options={this._renderProfileOptions()} />
       <Divider hidden />
-      <Input fluid={true} placeholder="Nation ID" onChange={this._onChange}/>
-      <Button fluid={true} onClick={this._onClick} >Save Nation ID</Button>
-      <Button fluid={true} onClick={this._onDeleteClick} >Delete All Profiles</Button>
+      <Input fluid placeholder="Nation ID" onChange={this._onChange}/>
+      <Button fluid onClick={this._onClick} >Save Nation ID</Button>
+      <Button fluid onClick={this._onDeleteClick} >Delete All Profiles</Button>
     </Segment>
   }
-})
+}
 
 export default ProfileSetup
