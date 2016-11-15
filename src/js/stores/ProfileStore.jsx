@@ -35,7 +35,8 @@ class ProfileStore {
     let profileId = profileData.profileId
     let profileInfo = profileData.data
     let profile = StorageUtils.updateObject(profileId, profileInfo)
-    this.profileList[profileId.replace(PROFILE_KEY_PREFIX, '')] = profile
+    let profileListIndex = parseInt(profileId.replace(PROFILE_KEY_PREFIX, '')) - 1
+    this.profileList[profileListIndex] = profile
   }
 
   handleFetchAllProfiles() {
@@ -43,7 +44,7 @@ class ProfileStore {
   }
 
   handleFetchProfile(profileId) {
-    currentProfile = StorageUtils.getObjectValue(PROFILE_KEY_PREFIX + profileId)
+    this.currentProfile = StorageUtils.getObjectValue(PROFILE_KEY_PREFIX + profileId)
   }
 
   handleUpdateNationId(nationIdInput) {
