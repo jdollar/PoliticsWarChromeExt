@@ -1,7 +1,7 @@
 'use strict'
 
 class StorageUtil {
-  static get(key, value) {
+  static get(key) {
     return localStorage.getItem(key)
   }
 
@@ -34,7 +34,7 @@ class StorageUtil {
   static getAllItems(idPrefix) {
     var itemList = []
     StorageUtil._loopAllItems(idPrefix, (value) => {
-      itemList.push(item)
+      itemList.push(value)
     })
     return itemList
   }
@@ -49,13 +49,17 @@ class StorageUtil {
 
   static updateObject(idToUpdate, newValues) {
     var object = StorageUtil.getObjectValue(idToUpdate)
-    for (key in newValues) {
+    if (Object.keys(object).length === 0 && object.constructor === Object) {
+      return object
+    }
+
+    for (let key in newValues) {
       if (newValues.hasOwnProperty(key)) {
         object[key] = newValues[key]
       }
     }
 
-    StorageUtil.set(idToUpdate, object)
+    StorageUtil.setObjectValue(idToUpdate, object)
     return object
   }
 
@@ -83,6 +87,10 @@ class StorageUtil {
 
   static setObject(objectKey, object) {
     object.id = objectKey
+    return StorageUtil.setObjectValue(objectKey, object)
+  }
+
+  static setObjectValue(objectKey, object) {
     StorageUtil.set(objectKey, JSON.stringify(object))
     return object
   }

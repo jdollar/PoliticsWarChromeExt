@@ -49,9 +49,9 @@ class ProfileStore {
       this.setState({
         profileList: currentProfileList
       })
-    }
 
-    this.handleClearNationId()
+      this.handleClearNationId()
+    }
   }
 
   handleUpdateProfile(profileData) {
@@ -96,6 +96,7 @@ class ProfileStore {
 
   handleDeleteAllProfiles() {
     StorageUtils.removeAllItems(PROFILE_KEY_PREFIX, PROFILE_KEY_COUNT)
+    this.handleClearNationId()
     this.setState({
       profileList: []
     })

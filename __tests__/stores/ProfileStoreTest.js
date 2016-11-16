@@ -32,10 +32,12 @@ describe('ProfileStore', () => {
       StorageUtils.setObject.calls.reset()
     })
 
-    it('should not add to profile list if key exists', () => {
+    it('should not add to profile list, not clear nation Id if key exists', () => {
       let data = {nationId: 'test'}
 
       StorageUtils.isKeyValueExisting.and.returnValue(true)
+
+      wrappedProfileStore.state.nationId = '23'
 
       alt.dispatcher.dispatch({action, data})
 
@@ -47,14 +49,17 @@ describe('ProfileStore', () => {
       expect(keyValueCall.args[2]).toEqual(data.nationId)
 
       expect(wrappedProfileStore.getState().profileList).toEqual([])
+      expect(wrappedProfileStore.getState().nationId).toEqual('23')
     })
 
-    it('should add to profile list if key not found', () => {
+    it('should add to profile list, clear nation Id if key not found', () => {
       let data = {nationId: 'test'}
 
       StorageUtils.isKeyValueExisting.and.returnValue(false)
       StorageUtils.increment.and.returnValue(1)
       StorageUtils.setObject.and.returnValue(data)
+
+      wrappedProfileStore.state.nationId = '23'
 
       alt.dispatcher.dispatch({action, data})
 
@@ -72,9 +77,10 @@ describe('ProfileStore', () => {
       expect(setObjectCall.args[1]).toEqual(data)
 
       expect(wrappedProfileStore.getState().profileList).toEqual([data])
+      expect(wrappedProfileStore.getState().nationId).toEqual('')
     })
 
-    it('should not add to profile list and throw error if there is a empty nationId', () => {
+    it('should not add to profile list, not clear nation ID and throw error if there is a empty nationId', () => {
       let data = {nationId: ''}
 
       StorageUtils.isKeyValueExisting.and.returnValue(false)
@@ -244,9 +250,10 @@ describe('ProfileStore', () => {
       StorageUtils.removeAllItems.calls.reset()
     })
 
-    it('should set profile list as empty array', () => {
+    it('should set profile list as empty array and clear nationId', () => {
       let data = undefined
       wrappedProfileStore.state.profileList = [{nationId: 'test'}]
+      wrappedProfileStore.state.nationId = '23'
 
       alt.dispatcher.dispatch({action, data})
 
@@ -257,6 +264,8 @@ describe('ProfileStore', () => {
       expect(removeAllItemsCall.args[1]).toEqual('profileKeyCount')
 
       expect(wrappedProfileStore.getState().profileList).toEqual([])
+      expect(wrappedProfileStore.getState().nationId).toEqual('')
+
     })
   })
 
