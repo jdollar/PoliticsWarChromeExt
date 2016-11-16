@@ -280,14 +280,32 @@ describe('ProfileStore', () => {
   describe('handleUpdateNationId', () => {
     beforeEach(() => {
       action = ProfileActions.UPDATE_NATION_ID
+      wrappedProfileStore.state.nationId = ''
     })
 
-    it ('should update nation id', () => {
-      let data = 1
+    it ('should update nation id if numeric', () => {
+      let data = '1'
 
       alt.dispatcher.dispatch({action, data})
 
-      expect(wrappedProfileStore.getState().nationId).toEqual(1)
+      expect(wrappedProfileStore.getState().nationId).toEqual('1')
+    })
+
+    it('should not update if nation id is not numeric', () => {
+      let data = 'a'
+      alt.dispatcher.dispatch({action, data})
+      expect(wrappedProfileStore.getState().nationId).toEqual('')
+
+      data = '1a'
+      alt.dispatcher.dispatch({action, data})
+      expect(wrappedProfileStore.getState().nationId).toEqual('')
+    })
+
+    it('should allow updating to empty', () => {
+      wrappedProfileStore.state.nationId = '1'
+      let data = ''
+      alt.dispatcher.dispatch({action, data})
+      expect(wrappedProfileStore.getState().nationId).toEqual('')
     })
   })
 

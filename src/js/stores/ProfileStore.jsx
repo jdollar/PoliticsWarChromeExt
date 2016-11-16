@@ -9,6 +9,7 @@ const PROFILE_KEY_COUNT = 'profileKeyCount'
 const PROFILE_KEY_PREFIX = 'profile'
 
 const INVALID_NATION_ID = 'Invalid Nation ID'
+const NATION_ID_NOT_NUMBERIC = "Nation ID must be numeric"
 
 class ProfileStore {
   constructor() {
@@ -115,10 +116,12 @@ class ProfileStore {
   }
 
   handleUpdateNationId(nationIdInput) {
-    this.setState({
-      nationId: nationIdInput,
-      nationIdError: ''
-    })
+    if (nationIdInput === '' || nationIdInput.match(/^\d+$/)) {
+      this.setState({
+        nationId: nationIdInput,
+        nationIdError: ''
+      })
+    }
   }
 
   handleDeleteAllProfiles() {
