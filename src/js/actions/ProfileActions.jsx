@@ -3,7 +3,7 @@ import alt from './../alt'
 
 class ProfileActions {
   constructor() {
-    this.generateActions('createNewProfile', 'fetchProfile', 'updateNationId', 'selectProfile')
+    this.generateActions('createNewProfile', 'fetchProfile', 'updateNationId', 'selectProfile', 'fetchAllProfilesAndAssign')
   }
 
   updateProfile(profileIdInput, profileData) {

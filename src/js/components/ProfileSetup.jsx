@@ -26,7 +26,7 @@ class ProfileSetup extends React.Component {
   }
 
   static componentDidConnect() {
-    ProfileActions.fetchAllProfiles()
+    ProfileActions.fetchAllProfilesAndAssign()
   }
 
   _onChange(event) {

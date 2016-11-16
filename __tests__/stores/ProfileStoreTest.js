@@ -162,6 +162,56 @@ describe('ProfileStore', () => {
     })
   })
 
+  describe('handleFetchAndDefault', () => {
+    beforeEach(() => {
+      action = ProfileActions.FETCH_ALL_PROFILES_AND_ASSIGN
+      wrappedProfileStore.state.profileList = []
+      wrappedProfileStore.state.currentProfile = ''
+    })
+
+    afterEach(() => {
+      StorageUtils.getAllObjectItems.calls.reset()
+    })
+
+    it('should keep profile list and current profile empty if no profiles', () => {
+      let data = undefined
+
+      StorageUtils.getAllObjectItems.and.returnValue([])
+
+      alt.dispatcher.dispatch({action, data})
+
+      expect(wrappedProfileStore.getState().profileList).toEqual([])
+      expect(wrappedProfileStore.getState().currentProfile).toEqual('')
+    })
+
+    it('should add profile and default to first if nothing passed', () => {
+      let data = undefined
+      let expectedObject = {id: 'test1', test: 'test'}
+
+      StorageUtils.getAllObjectItems.and.returnValue([expectedObject])
+
+      alt.dispatcher.dispatch({action, data})
+
+      expect(wrappedProfileStore.getState().profileList).toEqual([expectedObject])
+      expect(wrappedProfileStore.getState().currentProfile).toEqual(expectedObject)
+      expect(wrappedProfileStore.getState().currentProfileSelection).toEqual(expectedObject.id)
+    })
+
+    it('should add profile and default to key passed', () => {
+      let data = 'test2'
+      let expectedObject = {id: 'test1', test: 'test'}
+      let expectedObject2 = {id: 'test2', test: 'test2'}
+
+      StorageUtils.getAllObjectItems.and.returnValue([expectedObject, expectedObject2])
+
+      alt.dispatcher.dispatch({action, data})
+
+      expect(wrappedProfileStore.getState().profileList).toEqual([expectedObject, expectedObject2])
+      expect(wrappedProfileStore.getState().currentProfile).toEqual(expectedObject2)
+      expect(wrappedProfileStore.getState().currentProfileSelection).toEqual(expectedObject2.id)
+    })
+  })
+
   describe('handleFetchAllProfiles', () => {
     beforeEach(() => {
       action = ProfileActions.FETCH_ALL_PROFILES

@@ -28,6 +28,18 @@ describe('ProfileActions', () => {
     })
   })
 
+  describe('fetchAllProfilesAndAssign', () => {
+    it('should dispatch all profiles action without value', () => {
+      let action = ProfileActions.FETCH_ALL_PROFILES_AND_ASSIGN
+      testDispatcherCall(action, ProfileActions.fetchAllProfilesAndAssign, null, undefined)
+    })
+
+    it('should dispatch all profiles action with value', () => {
+      let action = ProfileActions.FETCH_ALL_PROFILES_AND_ASSIGN
+      testDispatcherCall(action, ProfileActions.fetchAllProfilesAndAssign, 1, [1])
+    })
+  })
+
   describe('createNewProfile', () => {
     it('should dispatch fetch all profiles action', () => {
       let action = ProfileActions.FETCH_ALL_PROFILES

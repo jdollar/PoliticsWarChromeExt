@@ -23,6 +23,7 @@ class ProfileStore {
     this.bindListeners({
       handleCreateProfile: ProfileActions.CREATE_NEW_PROFILE,
       handleUpdateProfile: ProfileActions.UPDATE_PROFILE,
+      handleFetchAllProfilesAndAssign: ProfileActions.FETCH_ALL_PROFILES_AND_ASSIGN,
       handleFetchAllProfiles: ProfileActions.FETCH_ALL_PROFILES,
       handleSelectProfile: ProfileActions.SELECT_PROFILE,
       handleFetchProfile: ProfileActions.FETCH_PROFILE,
@@ -64,6 +65,32 @@ class ProfileStore {
     currentProfileList[profileListIndex] = profile
     this.setState({
       profileList: currentProfileList
+    })
+  }
+
+  handleFetchAllProfilesAndAssign(assignValue) {
+    let allProfiles = StorageUtils.getAllObjectItems(PROFILE_KEY_PREFIX)
+    let profilesReturned = typeof(allProfiles) !== "undefined" && allProfiles.length > 0
+    if (!profilesReturned) {
+      return
+    }
+
+    let isAssignValuePassed = assignValue !== null && typeof(assignValue) !== "undefined"
+    let assignIndex = 0
+
+    if (isAssignValuePassed) {
+      for (let i = 0; i < allProfiles.length; i++) {
+        if (allProfiles[i].id === assignValue) {
+          assignIndex = i
+          break
+        }
+      }
+    }
+
+    this.setState({
+      profileList: allProfiles,
+      currentProfile: allProfiles[assignIndex],
+      currentProfileSelection: allProfiles[assignIndex].id
     })
   }
 
