@@ -245,9 +245,13 @@ describe('ProfileStore', () => {
 
     it('should update selected profile state', () => {
       let data = 'profile1'
+      let expectedProfile = {'id': 'profile1', 'test': 'test'}
+      wrappedProfileStore.state.profileList = [expectedProfile]
+
       alt.dispatcher.dispatch({action, data})
 
       expect(wrappedProfileStore.getState().currentProfileSelection).toEqual(data)
+      expect(wrappedProfileStore.getState().currentProfile).toEqual(expectedProfile)
     })
   })
 

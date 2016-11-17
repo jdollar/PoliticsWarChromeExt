@@ -3,23 +3,20 @@ import alt from './../alt'
 
 class ProfileActions {
   constructor() {
-    this.generateActions('createNewProfile', 'fetchProfile', 'updateNationId', 'selectProfile', 'fetchAllProfilesAndAssign')
+    this.generateActions(
+      'createNewProfile',
+      'fetchProfile',
+      'updateNationId',
+      'selectProfile',
+      'fetchAllProfilesAndAssign',
+      'fetchAllProfiles',
+      'deleteAllProfiles',
+      'clearNationId'
+    )
   }
 
   updateProfile(profileIdInput, profileData) {
     return {profileId: profileIdInput, data: profileData}
-  }
-
-  fetchAllProfiles() {
-    return true
-  }
-
-  deleteAllProfiles() {
-    return true
-  }
-
-  clearNationId() {
-    return true
   }
 }
 

@@ -5,7 +5,9 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 import { Segment, Divider, Button, Input, Dropdown} from 'semantic-ui-react'
 
 import ProfileStore from './../stores/ProfileStore'
+import NationStore from './../stores/NationStore'
 import ProfileActions from './../actions/ProfileActions'
+import NationActions from './../actions/NationActions'
 
 class ProfileSetup extends React.Component {
   constructor(props, context) {
@@ -18,7 +20,7 @@ class ProfileSetup extends React.Component {
   }
 
   static getStores(props) {
-    return [ProfileStore]
+    return [ProfileStore, NationStore]
   }
 
   static getPropsFromStores(props) {

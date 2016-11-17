@@ -27,6 +27,7 @@
   "dependencies": {
     "alt": "^0.18.6",
     "alt-utils": "^1.0.0",
+    "axios": "^0.15.2",
     "node-notifier": "^4.6.1",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
@@ -50,6 +51,9 @@
     "unmockedModulePathPatterns": [
       "node_modules/alt",
       "./src/js/alt.js"
+    ],
+    "testPathIgnorePatterns": [
+      "__tests__/testUtils"
     ]
   }
 }

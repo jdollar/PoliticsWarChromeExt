@@ -5,12 +5,13 @@ import {Grid} from 'semantic-ui-react'
 
 import PageHeader from './PageHeader'
 import ProfileSetup from './ProfileSetup'
+import NationDetails from './NationDetails'
 
 class Home extends React.Component {
 
   render() {
     return (
-      <Grid>
+      <Grid padded>
         <Grid.Row>
           <Grid.Column width={16}>
             <PageHeader />
@@ -21,7 +22,7 @@ class Home extends React.Component {
             <ProfileSetup />
           </Grid.Column>
           <Grid.Column width={12}>
-
+            <NationDetails />
           </Grid.Column>
         </Grid.Row>
       </Grid>

@@ -12,6 +12,7 @@
     "scripts": ["iconHandlers.js"]
   },
   "permissions": [
-    "webRequest"
+    "webRequest",
+    "https://*.politicsandwar.com/"
   ]
 }

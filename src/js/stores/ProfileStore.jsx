@@ -111,7 +111,8 @@ class ProfileStore {
 
   handleSelectProfile(prefixedProfileId) {
     this.setState({
-      currentProfileSelection: prefixedProfileId
+      currentProfileSelection: prefixedProfileId,
+      currentProfile: this._getObjectByValue(this.state.profileList, 'id', prefixedProfileId)
     })
   }
 
@@ -137,6 +138,14 @@ class ProfileStore {
       nationId: '',
       nationIdError: ''
     })
+  }
+
+  _getObjectByValue(objectList, key, value) {
+    for (let i = 0; i < objectList.length; i++) {
+      if (objectList[i][key] === value) {
+        return objectList[i]
+      }
+    }
   }
 }
 

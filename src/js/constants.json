@@ -1,0 +1,6 @@
+{
+  "pwBaseApiUrl": "https://politicsandwar.com/api/",
+  "endpoints": {
+    "nation": "nation/"
+  }
+}
