@@ -20,6 +20,7 @@
     "babel-preset-react": "^6.16.0",
     "babelify": "^7.3.0",
     "gulp": "^3.9.1",
+    "gulp-jest": "^0.6.0",
     "jest": "^17.0.0",
     "react-test-renderer": "^15.3.2",
     "watchify": "^3.7.0"

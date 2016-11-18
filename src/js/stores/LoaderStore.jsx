@@ -30,51 +30,20 @@ class LoaderStore {
   }
 
   onShowLoader() {
-    console.log('test')
-    this._updateLoader(true)
-    //this._updateLoader(true, msg, loadRequester)
+    this._updateLoader(true)]
   }
 
-  onHideLoader(hideRequester) {
+  onHideLoader() {
     this._updateLoader(false)
-    //this._updateLoader(false, '', hideRequester)
   }
 
-  _updateLoader(show, msg, requester) {
-    // if (show) {
-    //   this._addToLoadersActive(requester)
-    // } else {
-    //   this._removeFromLoadersActive(requester)
-    // }
-
-    // let showLoader = show || this.state.loadersActive.length > 0
-    let showLoader = show
+  _updateLoader(show, msg) {
     msg = typeof(msg) === 'undefined' ? 'Loading...' : msg
 
     this.setState({
-      loaderShown: showLoader,
+      loaderShown: show,
       loaderMsg: msg
     })
-  }
-
-  _removeFromLoadersActive(requester) {
-    let index = this.state.loadersActive.indexOf(requester)
-    if (index > -1) {
-      let newLoadersActive = this.state.loadersActive.slice(index, index+1)
-      this.setState({
-        loadersActive: newLoadersActive
-      })
-    }
-  }
-
-  _addToLoadersActive(requester) {
-    let index = this.state.loadersActive.indexOf(requester)
-    if (index < 0){
-      let loadersActive = this.state.loadersActive
-      this.setState({
-        loadersActive: loadersActive.push(requester)
-      })
-    }
   }
 }
 
