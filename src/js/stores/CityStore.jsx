@@ -4,7 +4,7 @@ import alt from './../alt'
 import CityActions from './../actions/CityActions'
 import NationActions from './../actions/NationActions'
 import CitySource from './../sources/CitySource'
-import NationStore, {wrappedStore} from './../stores/NationStore'
+import NationStore from './NationStore'
 
 class CityStore {
   constructor() {

@@ -2,7 +2,7 @@
 
 import React from 'react'
 import connectToStores from 'alt-utils/lib/connectToStores';
-import { Segment, Divider, Button, Input, Dropdown} from 'semantic-ui-react'
+import { Segment, Divider, Button, Input, Dropdown, Header} from 'semantic-ui-react'
 
 import ProfileStore from './../stores/ProfileStore'
 import NationStore from './../stores/NationStore'
@@ -54,13 +54,18 @@ class ProfileSetup extends React.Component {
   }
 
   render() {
-    return <Segment>
-      <Dropdown fluid selection value={this.props.currentProfileSelection} onChange={this._onProfileSelect} options={this._renderProfileOptions()} />
-      <Divider hidden />
-      <Input fluid placeholder="Nation ID" value={this.props.nationId} onChange={this._onChange}/>
-      <Button fluid onClick={this._onClick} >Save Nation ID</Button>
-      <Button fluid onClick={this._onDeleteClick} >Delete All Profiles</Button>
-    </Segment>
+    return <div>
+      <Header as='h2' attached='top' textAlign="center">
+        Profile
+      </Header>
+      <Segment attached>
+        <Dropdown fluid selection value={this.props.currentProfileSelection} onChange={this._onProfileSelect} options={this._renderProfileOptions()} />
+        <Divider hidden />
+        <Input fluid placeholder="Nation ID" value={this.props.nationId} onChange={this._onChange}/>
+        <Button fluid onClick={this._onClick} >Save Nation ID</Button>
+        <Button fluid onClick={this._onDeleteClick} >Delete All Profiles</Button>
+      </Segment>
+    </div>
   }
 }
  ProfileSetup = connectToStores(ProfileSetup)

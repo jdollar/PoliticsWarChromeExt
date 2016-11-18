@@ -4,7 +4,10 @@ import alt from './../alt'
 import NationActions from './../actions/NationActions'
 import ProfileActions from './../actions/ProfileActions'
 import NationSource from './../sources/NationSource'
-import ProfileStore from './../stores/ProfileStore'
+import ProfileStore from './ProfileStore'
+import LoaderStore from './LoaderStore'
+
+const CLASS_NAME = 'NationStore'
 
 class NationStore {
   constructor() {
