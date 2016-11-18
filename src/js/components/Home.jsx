@@ -1,11 +1,12 @@
 'use strict'
 
 import React from 'react'
-import {Grid} from 'semantic-ui-react'
+import {Grid, Divider} from 'semantic-ui-react'
 
 import PageHeader from './PageHeader'
 import ProfileSetup from './ProfileSetup'
 import NationDetails from './NationDetails'
+import CityDetails from './CityDetails'
 
 class Home extends React.Component {
 
@@ -23,6 +24,8 @@ class Home extends React.Component {
           </Grid.Column>
           <Grid.Column width={12}>
             <NationDetails />
+            <Divider hidden/>
+            <CityDetails />
           </Grid.Column>
         </Grid.Row>
       </Grid>

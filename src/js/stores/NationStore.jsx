@@ -10,7 +10,8 @@ class NationStore {
   constructor() {
     this.state = {
       nationId: '',
-      nationDetails: ''
+      nationDetails: '',
+      cityIds: []
     }
 
     this.registerAsync(NationSource)
@@ -25,6 +26,7 @@ class NationStore {
     this.setState({
       nationId: ProfileStore.getState().currentProfile.nationId
     })
+    this.getInstance().performGetNationDetails()
   }
 
   onGetNationDetails() {
@@ -34,9 +36,7 @@ class NationStore {
   }
 
   onUpdateNationDetails(response) {
-    this.setState({
-      nationDetails: response.data
-    })
+    this.setState(response.data)
   }
 
   onErrorNationDetails(response) {

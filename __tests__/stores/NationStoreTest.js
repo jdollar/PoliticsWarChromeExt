@@ -41,7 +41,7 @@ describe('NationStore', () => {
 
       alt.dispatcher.dispatch({action, data})
 
-      expect(NationStore.getState().nationDetails).toEqual(1)
+      expect(NationStore.getState()).toEqual(1)
     })
   })
 })

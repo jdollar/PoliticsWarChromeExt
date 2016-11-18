@@ -4,10 +4,10 @@ import React from 'react'
 import connectToStores from 'alt-utils/lib/connectToStores';
 import { Segment, Divider, Header, Button } from 'semantic-ui-react'
 
-import NationActions from './../actions/NationActions'
-import NationStore from './../stores/NationStore'
+import CityActions from './../actions/CityActions'
+import CityStore from './../stores/CityStore'
 
-class NationDetails extends React.Component {
+class CityDetails extends React.Component {
   constructor(props, context) {
     super(props, context)
 
@@ -16,25 +16,25 @@ class NationDetails extends React.Component {
   }
 
   static getStores(props) {
-    return [NationStore]
+    return [CityStore]
   }
 
   static getPropsFromStores(props) {
-    return NationStore.getState()
+    return CityStore.getState()
   }
 
   _onClick() {
-    NationActions.getNationDetails()
+    CityActions.getCityDetails()
   }
 
   render() {
     return <div>
       <Header as='h2' attached='top' textAlign='center'>
-        Nation Details
+        City Details
       </Header>
       <Segment attached>
         <div>
-          {JSON.stringify(this.props)}
+          {JSON.stringify(this.props.citiesDetails)}
         </div>
         <Divider hidden />
       </Segment>
@@ -42,4 +42,4 @@ class NationDetails extends React.Component {
   }
 }
 
-export default connectToStores(NationDetails)
+export default connectToStores(CityDetails)
