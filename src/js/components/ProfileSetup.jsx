@@ -62,8 +62,9 @@ class ProfileSetup extends React.Component {
         <Dropdown fluid selection value={this.props.currentProfileSelection} onChange={this._onProfileSelect} options={this._renderProfileOptions()} />
         <Divider hidden />
         <Input fluid placeholder="Nation ID" value={this.props.nationId} onChange={this._onChange}/>
-        <Button fluid onClick={this._onClick} >Save Nation ID</Button>
-        <Button fluid onClick={this._onDeleteClick} >Delete All Profiles</Button>
+        <Divider hidden />
+        <Button fluid positive onClick={this._onClick} >Save Nation ID</Button>
+        <Button fluid negative color='red' onClick={this._onDeleteClick} >Delete All Profiles</Button>
       </Segment>
     </div>
   }

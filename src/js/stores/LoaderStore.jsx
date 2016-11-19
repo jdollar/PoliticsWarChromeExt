@@ -30,7 +30,7 @@ class LoaderStore {
   }
 
   onShowLoader() {
-    this._updateLoader(true)]
+    this._updateLoader(true)
   }
 
   onHideLoader() {
